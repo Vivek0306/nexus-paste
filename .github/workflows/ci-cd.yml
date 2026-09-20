@@ -109,8 +109,8 @@ jobs:
           context: ./backend
           push: true
           tags: |
-            ghcr.io/${{ github.repository_owner }}/nexus-paste-backend:latest
-            ghcr.io/${{ github.repository_owner }}/nexus-paste-backend:${{ github.sha }}
+            ghcr.io/vivek0306/nexus-paste-backend:latest
+            ghcr.io/vivek0306/nexus-paste-backend:${{ github.sha }}
 
       - name: Build and push frontend
         uses: docker/build-push-action@v6
@@ -120,5 +120,5 @@ jobs:
           build-args: |
             VITE_API_URL=/api
           tags: |
-            ghcr.io/${{ github.repository_owner }}/nexus-paste-frontend:latest
-            ghcr.io/${{ github.repository_owner }}/nexus-paste-frontend:${{ github.sha }}
+            ghcr.io/vivek0306/nexus-paste-frontend:latest
+            ghcr.io/vivek0306/nexus-paste-frontend:${{ github.sha }}
