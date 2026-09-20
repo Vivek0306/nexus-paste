@@ -1,0 +1,73 @@
+services:
+
+  postgres:
+    image: postgres:17-alpine
+    container_name: nexus-paste-postgres
+
+    restart: unless-stopped
+
+    environment:
+      POSTGRES_DB: nexus_paste
+      POSTGRES_USER: nexus_paste
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -U nexus_paste -d nexus_paste"
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+    networks:
+      - nexus-paste
+
+
+  backend:
+    build:
+      context: ./backend
+
+    container_name: nexus-paste-backend
+
+    restart: unless-stopped
+
+    environment:
+      DATABASE_URL: postgresql://nexus_paste:${POSTGRES_PASSWORD}@postgres:5432/nexus_paste
+
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+    networks:
+      - nexus-paste
+
+
+  frontend:
+    build:
+      context: ./frontend
+
+    container_name: nexus-paste-frontend
+
+    restart: unless-stopped
+
+    ports:
+      - "8080:80"
+
+    depends_on:
+      - backend
+
+    networks:
+      - nexus-paste
+
+
+volumes:
+  postgres_data:
+
+
+networks:
+  nexus-paste:
