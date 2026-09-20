@@ -141,7 +141,7 @@ jobs:
       - name: Connect to Tailscale
         uses: tailscale/github-action@v4
         with:
-          authkey: ${{ secrets.TAILSCALE_AUTHKEY }}
+          authkey: ${{ secrets.TS_AUTHKEY }}
           ping: 100.73.244.120
 
       - name: Deploy to Nexus
