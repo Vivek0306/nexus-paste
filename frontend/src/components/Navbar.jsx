@@ -6,7 +6,7 @@ function Navbar() {
           href="/"
           className="logo"
         >
-          <span className="logo-mark">N</span>
+          <img className="logo-img" src="./favicon.png" alt="" width={60} height={60}/>
           <span>Nexus Paste</span>
         </a>
 

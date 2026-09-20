@@ -46,7 +46,7 @@ function PasteView() {
     try{
         await navigator.clipboard.writeText(window.location);
         
-        setcopiedURL(true);
+        setCopiedURL(true);
         
         window.setTimeout(() => {
             setCopiedURL(false);
