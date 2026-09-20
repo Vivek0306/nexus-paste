@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import Navbar from "../components/Navbar";
 
 import {
   getPaste,
@@ -138,24 +139,7 @@ function PasteView() {
     return (
       <div className="home">
 
-        <nav className="navbar">
-          <div className="navbar-inner">
-
-            <Link
-              to="/"
-              className="logo"
-            >
-              <span className="logo-mark">
-                N
-              </span>
-
-              <span>
-                Nexus Paste
-              </span>
-            </Link>
-
-          </div>
-        </nav>
+        <Navbar />
 
         <main className="paste-state">
 
@@ -191,33 +175,7 @@ function PasteView() {
   return (
     <div className="home">
 
-      <nav className="navbar">
-
-        <div className="navbar-inner">
-
-          <Link
-            to="/"
-            className="logo"
-          >
-            <span className="logo-mark">
-              N
-            </span>
-
-            <span>
-              Nexus Paste
-            </span>
-          </Link>
-
-          <div className="navbar-links">
-            <Link to="/">
-              New Paste
-            </Link>
-          </div>
-
-        </div>
-
-      </nav>
-
+      <Navbar />
       <main className="paste-view-container">
 
         <div className="paste-view-header">
