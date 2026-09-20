@@ -137,6 +137,7 @@ jobs:
       - docker-build
 
     steps:
+      # tailscale tag updated
       - name: Connect to Tailscale
         uses: tailscale/github-action@v4
         with:
