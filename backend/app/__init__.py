@@ -4,12 +4,14 @@ from dotenv import load_dotenv
 from flask import Flask
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 
 
 load_dotenv()
 
 
 db = SQLAlchemy()
+migrate = Migrate()
 
 
 def create_app():
@@ -23,10 +25,10 @@ def create_app():
         )
 
     app.config["SQLALCHEMY_DATABASE_URI"] = database_url
-
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
     db.init_app(app)
+    migrate.init_app(app, db)
 
     CORS(
         app,
@@ -40,16 +42,12 @@ def create_app():
         },
     )
 
-
+    from .models import Paste
     from .routes import api
 
     app.register_blueprint(
         api,
         url_prefix="/api",
     )
-
-
-    with app.app_context():
-        db.create_all()
 
     return app

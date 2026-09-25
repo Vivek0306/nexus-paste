@@ -107,6 +107,10 @@ def create_paste():
         data.get("expiration", "never")
     ).strip()
 
+    custom_url = str(
+        data.get("custom_url", None)
+    )
+
     # -----------------------------
     # Validation
     # -----------------------------
@@ -119,6 +123,16 @@ def create_paste():
     if len(title) > 200:
         return jsonify({
             "error": "Title cannot exceed 200 characters",
+        }), 400
+
+    if len(custom_url) > 20:
+        return jsonify({
+            "error": "Custom URL cannot exceed 20 characters",
+        }), 400
+
+    if db.session.get(Paste,custom_url,) is not None:
+        return jsonify({
+            "error": "Custom URL already exists. Please try a new name."
         }), 400
 
     if not content.strip():
@@ -151,8 +165,9 @@ def create_paste():
     # -----------------------------
 
     paste = Paste(
-        id=generate_paste_id(),
+        id= custom_url if custom_url else generate_paste_id(),
         title=title,
+        custom_url=custom_url,
         content=content,
         language=language,
         expiration=expiration,

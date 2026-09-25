@@ -44,6 +44,11 @@ class Paste(db.Model):
         nullable=True,
     )
 
+    custom_url = db.Column(
+        db.String(30),
+        nullable = True,
+    )
+
     def is_expired(self):
         """
         Return True if the paste has an expiration
@@ -59,6 +64,7 @@ class Paste(db.Model):
         return {
             "id": self.id,
             "title": self.title,
+            "custom_url": self.custom_url,
             "content": self.content,
             "language": self.language,
             "expiration": self.expiration,

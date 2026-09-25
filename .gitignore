@@ -1,3 +1,7 @@
+# ==========================================
+# Environment / Secrets
+# ==========================================
+
 .env
 .env.*
 !.env.example
@@ -10,8 +14,12 @@ backend/.env
 backend/.env.*
 !backend/.env.example
 
+*.docker.env
 
 
+# ==========================================
+# Python
+# ==========================================
 
 backend/.venv/
 backend/venv/
@@ -27,13 +35,36 @@ __pycache__/
 
 *.egg-info/
 .eggs/
+
 build/
 backend/dist/
+
+# Python coverage
+.coverage
+.coverage.*
+htmlcov/
+.pytest_cache/
+
+
+# ==========================================
+# Database / Local DB Files
+# ==========================================
 
 *.sqlite
 *.sqlite3
 *.db
 
+
+# ==========================================
+# Flask / Instance Data
+# ==========================================
+
+backend/instance/
+
+
+# ==========================================
+# Node / Frontend
+# ==========================================
 
 frontend/node_modules/
 frontend/dist/
@@ -48,7 +79,9 @@ lerna-debug.log*
 *.local
 
 
-
+# ==========================================
+# Logs
+# ==========================================
 
 logs/
 *.log
@@ -57,12 +90,17 @@ frontend/logs/
 backend/logs/
 
 
+# ==========================================
+# Docker
+# ==========================================
 
 docker-compose.override.yml
 docker-compose.local.yml
 
-*.docker.env
 
+# ==========================================
+# IDE / Editor
+# ==========================================
 
 .vscode/*
 !.vscode/extensions.json
@@ -81,5 +119,3 @@ docker-compose.local.yml
 *.njsproj
 *.ntvs*
 *.ntvs_analysis.dat
-
-

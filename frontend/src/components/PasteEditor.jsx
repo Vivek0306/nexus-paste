@@ -9,6 +9,7 @@ function PasteEditor() {
     const [content, setContent] = useState("");
     const [language, setLanguage] = useState("text");
     const [expiration, setExpiration] = useState("never");
+    const [customURL, setCustomURL] = useState("")
 
     const [error, setError] = useState("");
     const [creating, setCreating] = useState(false);
@@ -23,6 +24,7 @@ function PasteEditor() {
         setError("");
 
         const trimmedTitle = title.trim();
+        const trimmedCustomURL = customURL.trim();
 
         if (!trimmedTitle) {
             setError("Please enter a title.");
@@ -36,9 +38,9 @@ function PasteEditor() {
 
         try {
             setCreating(true);
-
             const paste = await createPaste({
                 title: trimmedTitle,
+                custom_url: trimmedCustomURL,
                 content,
                 language,
                 expiration,
@@ -69,24 +71,40 @@ function PasteEditor() {
             </div>
 
             <form onSubmit={handleCreate}>
+                <div className="form-row">
+                    <div className="form-group">
+                        <label htmlFor="title">
+                            Title
+                        </label>
 
-                <div className="form-group">
-                    <label htmlFor="title">
-                        Title
-                    </label>
-
-                    <input
-                        id="title"
-                        type="text"
-                        placeholder="Give your paste a title"
-                        value={title}
-                        maxLength={200}
-                        disabled={creating}
-                        onChange={(event) => {
-                            setTitle(event.target.value);
-                            if (error) setError("");
-                        }}
-                    />
+                        <input
+                            id="title"
+                            type="text"
+                            placeholder="Give your paste a title"
+                            value={title}
+                            maxLength={200}
+                            disabled={creating}
+                            onChange={(event) => {
+                                setTitle(event.target.value);
+                                if (error) setError("");
+                            }}
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="permanent">Custom URL</label>
+                        <input
+                            id="permanent"
+                            type="text"
+                            placeholder="Give your paste a Custom URL"
+                            value={customURL}
+                            maxLength={200}
+                            disabled={creating}
+                            onChange={(event) => {
+                                setCustomURL(event.target.value);
+                                if (error) setError("");
+                            }}
+                        />
+                    </div>
                 </div>
 
                 <div className="form-row">
