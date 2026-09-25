@@ -137,12 +137,20 @@ jobs:
       - docker-build
 
     steps:
-      # tailscale tag updated
+
+      # ==========================================
+      # Connect GitHub Runner to Nexus via Tailscale
+      # ==========================================
+
       - name: Connect to Tailscale
         uses: tailscale/github-action@v4
         with:
           authkey: ${{ secrets.TS_AUTHKEY }}
           ping: 100.73.244.120
+
+      # ==========================================
+      # Deploy
+      # ==========================================
 
       - name: Deploy to Nexus
         uses: appleboy/ssh-action@v1.2.2
@@ -151,12 +159,37 @@ jobs:
           username: ${{ secrets.NEXUS_USER }}
           key: ${{ secrets.NEXUS_SSH_KEY }}
           script: |
+            set -e
+
             cd /home/kamikaze/homelab/apps/nexus-paste
 
             export IMAGE_TAG=${{ github.sha }}
 
+            echo "========================================="
+            echo "Pulling Docker images"
+            echo "========================================="
+
             docker compose pull
+
+            echo "========================================="
+            echo "Running database migrations"
+            echo "========================================="
+
+            docker compose run --rm backend \
+              flask --app run.py db upgrade
+
+            echo "========================================="
+            echo "Starting application"
+            echo "========================================="
 
             docker compose up -d
 
+            echo "========================================="
+            echo "Cleaning unused Docker images"
+            echo "========================================="
+
             docker image prune -f
+
+            echo "========================================="
+            echo "Deployment completed"
+            echo "========================================="
